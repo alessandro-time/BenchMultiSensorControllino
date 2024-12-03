@@ -10,7 +10,7 @@
 
 #define IN_EMERGENZA A0
 #define IN_TEMP_POZZETTO A14
-#define IN_LIVELLO A2
+#define IN_LIVELLO A2 
 
 
 
