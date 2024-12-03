@@ -153,7 +153,7 @@ void ParseCommands() {
 
     // STATUS
     if (command == 1) {
-      String buff = "#" + String(emergenza ? "1" : "0") + ";" + String(mapfloat(t_vasca, 0, 1023, 0, ), 1) + ";" + String(mapfloat(livello, 0, 1023, 0, 24), 3) + ";";
+      String buff = "#" + String(emergenza ? "1" : "0") + ";" + String(mapfloat(t_vasca, 0, 1023, 0, 10 ), 1) + ";" + String(mapfloat(livello, 0, 1023, 0, 24), 3) + ";";
       //cambiare l'invio dei valori dei sensori e del valore di temperatura
       client.println(buff);
       client.flush();
