@@ -9,7 +9,7 @@
 #define TENSIONE_SENSORE_3 8  // DO6
 
 #define IN_EMERGENZA A0
-#define IN_TEMP_POZZETTO A14
+#define IN_TEMP_POZZETTO A14 
 #define IN_LIVELLO A2 
 
 
