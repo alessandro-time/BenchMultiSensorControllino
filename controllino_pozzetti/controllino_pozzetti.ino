@@ -9,8 +9,8 @@
 #define TENSIONE_SENSORE_3 8  // DO6
 
 #define IN_EMERGENZA A0
-#define IN_TEMP_POZZETTO A14 
-#define IN_LIVELLO A2 
+#define IN_TEMP_POZZETTO A14
+#define IN_LIVELLO A2
 
 
 
@@ -24,7 +24,8 @@ IPAddress gateway(0, 0, 0, 0);
 EthernetServer server(80);
 EthernetClient client;
 
-volatile float t_vasca, livello;
+volatile float t_vasca;
+volatile int livello;
 volatile bool emergenza = false;
 
 // comunicazione verso PC
@@ -93,7 +94,7 @@ void loop() {
     // t_vasca = filterInput(t_vasca, analogRead(IN_TEMP_POZZETTO));
     //t_vasca = analogRead(IN_TEMP_POZZETTO);
     int rawvalue = analogRead(IN_TEMP_POZZETTO);
-    
+
     t_vasca = map(rawvalue, 0, 1023, 0, 10000);
     Serial.println(t_vasca);
 
@@ -153,7 +154,9 @@ void ParseCommands() {
 
     // STATUS
     if (command == 1) {
-      String buff = "#" + String(emergenza ? "1" : "0") + ";" + String(mapfloat(t_vasca, 0, 1023, 0, 10 ), 1) + ";" + String(mapfloat(livello, 0, 1023, 0, 24), 3) + ";";
+      String buff = "#" + String(emergenza ? "1" : "0") + ";" + String(t_vasca) + ";" + String(livello) + ";";
+      Serial.print(buff);
+      //String buff = "#" + String(emergenza ? "1" : "0") + ";" + String(mapfloat(t_vasca, 0, 1023, 0, 10), 1) + ";" + String(mapfloat(livello, 0, 1023, 0, 24), 3) + ";";
       //cambiare l'invio dei valori dei sensori e del valore di temperatura
       client.println(buff);
       client.flush();
