@@ -37,7 +37,7 @@ volatile unsigned long lastCmdMillis = 0;
 const byte numChars = 128;
 char receivedChars[numChars];
 boolean newData = false;
-
+bool wasConnected = false;
 
 
 void setup() {
@@ -94,9 +94,10 @@ void loop() {
     // t_vasca = filterInput(t_vasca, analogRead(IN_TEMP_POZZETTO));
     //t_vasca = analogRead(IN_TEMP_POZZETTO);
     int rawvalue = analogRead(IN_TEMP_POZZETTO);
-
-    t_vasca = map(rawvalue, 0, 1023, 0, 10000);
+    Serial.println(rawvalue);
+    t_vasca = map(rawvalue, 0, 1023, 0, 10000); //controllare se legge correttamente il valore della temperatura
     Serial.println(t_vasca);
+
 
     //livello = filterInput(livello, analogRead(IN_LIVELLO));
     livello = digitalRead(IN_LIVELLO);
@@ -116,12 +117,29 @@ void loop() {
   }
 
   // comandi in arrivo??
-  client = server.available();
+  EthernetClient newClient = server.accept();
+
+  if (newClient) {
+    client = newClient;
+  }
+
   if (client) {
     Serial.print("Client BEGIN! IP=");
     Serial.println(client.remoteIP());
     RecvWithEndMarker();
     ParseCommands();
+    wasConnected = true;
+  }
+  else{
+    if(wasConnected){
+      Serial.println("PC Disconnesso");
+      stoppa_tutto();
+      wasConnected = false;
+    }
+  }
+
+  if(client && !client.connected()){
+    client.stop();
   }
 }
 
@@ -159,12 +177,15 @@ void ParseCommands() {
       //String buff = "#" + String(emergenza ? "1" : "0") + ";" + String(mapfloat(t_vasca, 0, 1023, 0, 10), 1) + ";" + String(mapfloat(livello, 0, 1023, 0, 24), 3) + ";";
       //cambiare l'invio dei valori dei sensori e del valore di temperatura
       client.println(buff);
-      client.flush();
+      // client.flush();
       //Serial.println(buff);
     } else if (command == 2) {
       buf = strtok(NULL, ";");
       int state = atol(buf);
       digitalWrite(RISCALDATORE, state ? HIGH : LOW);
+      //controllare velocemente lo stato del riscaldatore usando una libreria per controllo scr
+      
+
       Serial.println("RISCALDATORE=>" + state);
     } else if (command == 3) {
       buf = strtok(NULL, ";");
@@ -196,6 +217,8 @@ void ParseCommands() {
       int state = atol(buf);
       digitalWrite(TENSIONE_SENSORE_3, state ? HIGH : LOW);
       Serial.println("TENSIONE_SENSORE_3=>" + state);
+    } else {
+      Serial.println("Faccio niente");
     }
   }
 }
