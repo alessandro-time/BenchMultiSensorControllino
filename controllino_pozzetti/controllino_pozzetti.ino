@@ -217,7 +217,11 @@ void ParseCommands() {
       int state = atol(buf);
       digitalWrite(TENSIONE_SENSORE_3, state ? HIGH : LOW);
       Serial.println("TENSIONE_SENSORE_3=>" + state);
-    } else {
+    } else if (command == 9){
+      stoppa_tutto();
+      Serial.println("STOPPA TUTTO");
+    }
+     else {
       Serial.println("Faccio niente");
     }
   }
