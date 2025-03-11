@@ -12,6 +12,7 @@
 #define IN_TEMP_POZZETTO A14
 #define IN_LIVELLO A2
 
+#define AGITATORE_CONDUCIBILITA 27
 
 
 byte mac[] = {
@@ -53,6 +54,8 @@ void setup() {
   pinMode(TENSIONE_SENSORE_2, OUTPUT);
   pinMode(TENSIONE_SENSORE_3, OUTPUT);
 
+  pinMode(AGITATORE_CONDUCIBILITA, OUTPUT);
+
   Serial.begin(9600);
 
   Ethernet.begin(mac, ip);
@@ -81,6 +84,7 @@ void stoppa_tutto() {
   digitalWrite(RISCALDATORE, LOW);
   digitalWrite(CARICO_ACQUA, LOW);
   digitalWrite(AGITATORE, LOW);
+  digitalWrite(AGITATORE_CONDUCIBILITA, LOW);
 }
 void loop() {
   unsigned long currentMillis = millis();
@@ -95,7 +99,7 @@ void loop() {
     //t_vasca = analogRead(IN_TEMP_POZZETTO);
     int rawvalue = analogRead(IN_TEMP_POZZETTO);
     Serial.println(rawvalue);
-    t_vasca = map(rawvalue, 0, 1023, 0, 10000); //controllare se legge correttamente il valore della temperatura
+    t_vasca = map(rawvalue, 0, 1023, 0, 10000);  //controllare se legge correttamente il valore della temperatura
     Serial.println(t_vasca);
 
 
@@ -129,16 +133,15 @@ void loop() {
     RecvWithEndMarker();
     ParseCommands();
     wasConnected = true;
-  }
-  else{
-    if(wasConnected){
+  } else {
+    if (wasConnected) {
       Serial.println("PC Disconnesso");
       stoppa_tutto();
       wasConnected = false;
     }
   }
 
-  if(client && !client.connected()){
+  if (client && !client.connected()) {
     client.stop();
   }
 }
@@ -184,7 +187,7 @@ void ParseCommands() {
       int state = atol(buf);
       digitalWrite(RISCALDATORE, state ? HIGH : LOW);
       //controllare velocemente lo stato del riscaldatore usando una libreria per controllo scr
-      
+
 
       Serial.println("RISCALDATORE=>" + state);
     } else if (command == 3) {
@@ -217,11 +220,18 @@ void ParseCommands() {
       int state = atol(buf);
       digitalWrite(TENSIONE_SENSORE_3, state ? HIGH : LOW);
       Serial.println("TENSIONE_SENSORE_3=>" + state);
-    } else if (command == 9){
+    } else if (command == 9) {
       stoppa_tutto();
       Serial.println("STOPPA TUTTO");
+    } 
+    else if (command == 10){
+      buf = strtok(NULL, ";");
+      int state = atol(buf);
+      digitalWrite(AGITATORE_CONDUCIBILITA, state ? HIGH : LOW);
+      Serial.println("AGITATORE_CONDUCIBILITA=>" + state);
     }
-     else {
+    
+    else {
       Serial.println("Faccio niente");
     }
   }
