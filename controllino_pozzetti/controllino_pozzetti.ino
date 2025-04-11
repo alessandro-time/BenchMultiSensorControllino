@@ -8,9 +8,11 @@
 #define TENSIONE_SENSORE_2 7  // DO5
 #define TENSIONE_SENSORE_3 8  // DO6
 
-#define IN_EMERGENZA A0
-#define IN_TEMP_POZZETTO A14
-#define IN_LIVELLO A2
+#define IN_EMERGENZA A0       //emerge
+#define IN_TEMP_POZZETTO A14  //ai1
+#define IN_LIVELLO A2         //ai2
+
+#define OUT_ANALOG 12
 
 #define AGITATORE_CONDUCIBILITA 27
 
@@ -76,6 +78,8 @@ String format24V(int raw) {
   float v = c / 1000.0f;
   return String(v, 3);
 }
+
+
 void stoppa_tutto() {
   digitalWrite(POMPA_PERISTALTICA, LOW);
   digitalWrite(TENSIONE_SENSORE_1, LOW);
@@ -92,32 +96,23 @@ void loop() {
   //lastCmdMillis è dentro la funzione ParseCommands
 
 
-  // lettura e media analogiche
-  if (currentMicros - previousMillisAnalogs >= 5000000) {
+  //DA SISTEMARE QUESTA PARTE NON SERVONO DUE IF DI CONTROLLO, POSSO FARE SOLO UN IF, CHE OGNI 500ms CONTROLLI LA TEMP POZZETTO/IN_LIVELLO/IN_EMERGENZA
+  if (currentMicros - previousMillisAnalogs >= 5000000) {  //5 SECONDI
     previousMillisAnalogs = currentMicros;
     // t_vasca = filterInput(t_vasca, analogRead(IN_TEMP_POZZETTO));
     //t_vasca = analogRead(IN_TEMP_POZZETTO);
     int rawvalue = analogRead(IN_TEMP_POZZETTO);
     Serial.println(rawvalue);
-    t_vasca = map(rawvalue, 0, 1023, 0, 10000);  //controllare se legge correttamente il valore della temperatura
+    t_vasca = map(rawvalue, 0, 1023, 0, 10000);
     Serial.println(t_vasca);
-
-
-    //livello = filterInput(livello, analogRead(IN_LIVELLO));
     livello = digitalRead(IN_LIVELLO);
-    //Serial.println(livello);
   }
   if (currentMillis - previousMillisStatus >= 100) {
     previousMillisStatus = currentMillis;
     emergenza = digitalRead(IN_EMERGENZA);
     if (emergenza) {
-      // sicurezze attive: stoppa tutto
       stoppa_tutto();
     }
-    // if (currentMillis - lastCmdMillis >= 5000) { //questo qua devo tiralo via, mi manda basso l'uscita
-    //   // PC morto: stoppa tutto
-    //   stoppa_tutto();
-    // }
   }
 
   // comandi in arrivo??
@@ -128,8 +123,8 @@ void loop() {
   }
 
   if (client) {
-    Serial.print("Client BEGIN! IP=");
-    Serial.println(client.remoteIP());
+    // Serial.print("Client BEGIN! IP=");
+    // Serial.println(client.remoteIP());
     RecvWithEndMarker();
     ParseCommands();
     wasConnected = true;
@@ -144,21 +139,53 @@ void loop() {
   if (client && !client.connected()) {
     client.stop();
   }
+
+  if (Serial.available() > 0) {
+    int command2 = Serial.parseInt();
+    switch (command2) {
+      case 1:
+        {
+          Serial.println("dentro");
+          int Lev1 = (6.8 / 10.0) * 255;
+          int Lev2 = (8.0 / 10.0) * 255;
+          int Lev3 = (10 / 10.0) * 255;
+          analogWrite(OUT_ANALOG, 0);
+          delay(2000);
+          
+
+
+          analogWrite(OUT_ANALOG, Lev3);
+          delay(450);
+          analogWrite(OUT_ANALOG, Lev2);
+          delay(450);
+          analogWrite(OUT_ANALOG, Lev3);
+          delay(400);
+          delay(2500);
+          Serial.println("ciao");
+          analogWrite(OUT_ANALOG, Lev2);
+          delay(2000);
+          analogWrite(OUT_ANALOG, Lev1);
+          break;
+        }
+    }
+  }
 }
 
+//Classico esempio di lettura seriale o da socket con delimitatore, molto usata in Arduino o ESP (es. ESP8266/ESP32) per ricevere dati da un client TCP/IP.
 void RecvWithEndMarker() {
   static byte ndx = 0;
-  char endMarker = '|';
+  char endMarker = '|';  //Comando tipo 2;1| inviato dal PC
   char rc;
   while (client.available() && newData == false) {
     rc = client.read();
+    //Legge i caratteri in arrivo da un client, fino a trovare un carattere di fine messaggio ('|')
     if (rc != endMarker) {
-      receivedChars[ndx] = rc;
+      receivedChars[ndx] = rc;  //Salvo tutto in un array
       ndx++;
-      if (ndx >= numChars) {
+      if (ndx >= numChars) {  //Se si arriva alla fine dell'array si blocca all'ultima posizione (evita overflow)
         ndx = numChars - 1;
       }
-    } else {
+    } else {                      //se appunto trova il carattere di fine | termina la stringa con \0
       receivedChars[ndx] = '\0';  // terminate the string
       ndx = 0;
       newData = true;
@@ -170,8 +197,8 @@ void ParseCommands() {
   if (newData == true) {
     lastCmdMillis = millis();
     newData = false;
-    char* buf = strtok(receivedChars, ";");
-    int command = atoi(buf);
+    char* buf = strtok(receivedChars, ";");  //strtok() divide il messaggio in token separati da ;
+    int command = atoi(buf);                 //atoi() converte il primo token in un numero intero (il comando), serve per entrare dentro un IF
 
     // STATUS
     if (command == 1) {
@@ -183,12 +210,9 @@ void ParseCommands() {
       // client.flush();
       //Serial.println(buff);
     } else if (command == 2) {
-      buf = strtok(NULL, ";");
+      buf = strtok(NULL, ";");  //SERVE PER SCARTARE IL PRIMO TOKEN CHE SAREBBE = 2 ED IL SECONDO TOKEN SAREBBE 1/0 --> 1 ACCENDE IL RISCALDATORE / 0 SPEGNE IL RISCALDATORE
       int state = atol(buf);
       digitalWrite(RISCALDATORE, state ? HIGH : LOW);
-      //controllare velocemente lo stato del riscaldatore usando una libreria per controllo scr
-
-
       Serial.println("RISCALDATORE=>" + state);
     } else if (command == 3) {
       buf = strtok(NULL, ";");
@@ -223,14 +247,13 @@ void ParseCommands() {
     } else if (command == 9) {
       stoppa_tutto();
       Serial.println("STOPPA TUTTO");
-    } 
-    else if (command == 10){
+    } else if (command == 10) {
       buf = strtok(NULL, ";");
       int state = atol(buf);
       digitalWrite(AGITATORE_CONDUCIBILITA, state ? HIGH : LOW);
       Serial.println("AGITATORE_CONDUCIBILITA=>" + state);
     }
-    
+
     else {
       Serial.println("Faccio niente");
     }
