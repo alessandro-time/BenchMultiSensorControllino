@@ -1,5 +1,5 @@
 #include <Ethernet.h>
-
+//CONTROLLINO MAXI AUTOMATION
 #define RISCALDATORE 2        // DO0
 #define CARICO_ACQUA 3        // DO1
 #define POMPA_PERISTALTICA 4  // DO2
@@ -9,8 +9,8 @@
 #define TENSIONE_SENSORE_3 8  // DO6
 
 #define IN_EMERGENZA A0       //emerge
-#define IN_TEMP_POZZETTO A14  //ai1
-#define IN_LIVELLO A2         //ai2
+#define IN_TEMP_POZZETTO A14  //AI1 0-10V
+#define IN_LIVELLO A2         //AI2
 
 #define OUT_ANALOG 12
 
@@ -102,8 +102,8 @@ void loop() {
     // t_vasca = filterInput(t_vasca, analogRead(IN_TEMP_POZZETTO));
     //t_vasca = analogRead(IN_TEMP_POZZETTO);
     int rawvalue = analogRead(IN_TEMP_POZZETTO);
-    Serial.println(rawvalue);
-    t_vasca = map(rawvalue, 0, 1023, 0, 10000);
+    Serial.println(rawvalue); //devo leggere una termoresistenza tramite z109 seneca, devo mappare 0-1023 bit di ingresso sulla analogica in 0-10mV , il controllino ha una analogica che accetta fino a 10V
+    t_vasca = map(rawvalue, 0, 1023, 0, 10000);  //MAPPO IL VALORE DI TENSIONE IN BIT 0-1023 --> sul pc linearizzo il valore  controllinoResponse.TemperatureValue = ((temp / 1000.00f) * 15.5f - 50.00f); e converto il valore di tensione in gradi (usare foglio excel)
     Serial.println(t_vasca);
     livello = digitalRead(IN_LIVELLO);
   }
