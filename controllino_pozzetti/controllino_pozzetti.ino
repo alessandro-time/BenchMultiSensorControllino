@@ -111,6 +111,7 @@ void loop() {
     previousMillisStatus = currentMillis;
     emergenza = digitalRead(IN_EMERGENZA);
     if (emergenza) {
+      // rilevo emergenza
       stoppa_tutto();
     }
   }
