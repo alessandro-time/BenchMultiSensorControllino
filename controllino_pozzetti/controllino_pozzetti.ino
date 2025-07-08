@@ -1,3 +1,8 @@
+
+
+//MODIFICA 08/07/2025 DEBOUNCE SOFTWARE PULSANTE EMERGENZA, CONTROLLARE SE VA BENE HIGH/LOW
+
+
 #include <Ethernet.h>
 //CONTROLLINO MAXI AUTOMATION
 #define RISCALDATORE 2        // DO0
@@ -42,6 +47,10 @@ char receivedChars[numChars];
 boolean newData = false;
 bool wasConnected = false;
 
+const int debounceDelay = 50; // Tempo minimo per stabilizzare il segnale (ms)
+unsigned long lastDebounceTime = 0;
+bool lastEmergenzaState = LOW;
+bool emergenzaStable = false;
 
 void setup() {
   pinMode(IN_EMERGENZA, INPUT);
@@ -107,13 +116,32 @@ void loop() {
     Serial.println(t_vasca);
     livello = digitalRead(IN_LIVELLO);
   }
-  if (currentMillis - previousMillisStatus >= 100) {
+
+  if (currentMillis - previousMillisStatus >= 100) { 
     previousMillisStatus = currentMillis;
+
     emergenza = digitalRead(IN_EMERGENZA);
-    if (emergenza) {
-      // rilevo emergenza
-      stoppa_tutto();
+
+    if (emergenza != lastEmergenzaState){
+      lastDebounceTime = currentMillis;
     }
+    
+    //se il segnale è stabile lo accettiamo
+    if ((currentMillis - lastDebounceTime) > debounceDelay){
+      if (emergenza == HIGH && !emergenzaStable){
+        emergenzaStable = true;
+        stoppa_tutto();
+      }
+      if (emergenza == LOW){
+        emergenzaStable = false;
+      }
+    }
+
+    // if (emergenza) {
+    //   // rilevo emergenza
+    //   stoppa_tutto();
+    // }
+
   }
 
   // comandi in arrivo??
