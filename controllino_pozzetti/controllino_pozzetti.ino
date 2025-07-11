@@ -47,9 +47,9 @@ char receivedChars[numChars];
 boolean newData = false;
 bool wasConnected = false;
 
-const int debounceDelay = 50; // Tempo minimo per stabilizzare il segnale (ms)
+const int debounceDelay = 50;  // Tempo minimo per stabilizzare il segnale (ms)
 unsigned long lastDebounceTime = 0;
-bool lastEmergenzaState = LOW;
+bool lastEmergenzaState = false;
 bool emergenzaStable = false;
 
 void setup() {
@@ -111,37 +111,46 @@ void loop() {
     // t_vasca = filterInput(t_vasca, analogRead(IN_TEMP_POZZETTO));
     //t_vasca = analogRead(IN_TEMP_POZZETTO);
     int rawvalue = analogRead(IN_TEMP_POZZETTO);
-    Serial.println(rawvalue); //devo leggere una termoresistenza tramite z109 seneca, devo mappare 0-1023 bit di ingresso sulla analogica in 0-10mV , il controllino ha una analogica che accetta fino a 10V
+    Serial.println(rawvalue);                    //devo leggere una termoresistenza tramite z109 seneca, devo mappare 0-1023 bit di ingresso sulla analogica in 0-10mV , il controllino ha una analogica che accetta fino a 10V
     t_vasca = map(rawvalue, 0, 1023, 0, 10000);  //MAPPO IL VALORE DI TENSIONE IN BIT 0-1023 --> sul pc linearizzo il valore  controllinoResponse.TemperatureValue = ((temp / 1000.00f) * 15.5f - 50.00f); e converto il valore di tensione in gradi (usare foglio excel)
     Serial.println(t_vasca);
     livello = digitalRead(IN_LIVELLO);
   }
 
-  if (currentMillis - previousMillisStatus >= 100) { 
+  if (currentMillis - previousMillisStatus >= 100) {
     previousMillisStatus = currentMillis;
 
     emergenza = digitalRead(IN_EMERGENZA);
 
-    if (emergenza != lastEmergenzaState){
-      lastDebounceTime = currentMillis;
-    }
-    
-    //se il segnale è stabile lo accettiamo
-    if ((currentMillis - lastDebounceTime) > debounceDelay){
-      if (emergenza == HIGH && !emergenzaStable){
-        emergenzaStable = true;
+    if(emergenza){
+      delay(50);
+      bool temp = digitalRead(IN_EMERGENZA);
+      if(temp && emergenza){
+        Serial.println("RILEVATA EMERGENZA");
         stoppa_tutto();
       }
-      if (emergenza == LOW){
-        emergenzaStable = false;
-      }
     }
+
+    // if (emergenza != lastEmergenzaState) {
+    //   lastDebounceTime = currentMillis;
+    // }
+
+    // //se il segnale è stabile lo accettiamo
+    // if ((currentMillis - lastDebounceTime) > debounceDelay) {
+    //   if (emergenza == HIGH && !emergenzaStable) {
+    //     emergenzaStable = true;
+    //     Serial.println("EMERGENZA RILEVATA");
+    //     stoppa_tutto();
+    //   }
+    //   if (emergenza == LOW) {
+    //     emergenzaStable = false;
+    //   }
+    // }
 
     // if (emergenza) {
     //   // rilevo emergenza
     //   stoppa_tutto();
     // }
-
   }
 
   // comandi in arrivo??
@@ -180,7 +189,7 @@ void loop() {
           int Lev3 = (10 / 10.0) * 255;
           analogWrite(OUT_ANALOG, 0);
           delay(2000);
-          
+
 
 
           analogWrite(OUT_ANALOG, Lev3);
