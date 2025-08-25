@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "Z:\\Attivit\u00E0\\Electrolux Porcia\\24073_Banco sensori pozzetto Iris\\Software Controllino\\WpfApp1\\",
+  "WorkspaceRootPath": "C:\\Users\\Alessandro Gerolami\\Desktop\\BenchMultiSensorControllino\\WpfApp1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C7B693AF-64F3-450A-9B01-4F87FA108A4C}|WpfApp1.csproj|z:\\attivit\u00E0\\electrolux porcia\\24073_banco sensori pozzetto iris\\software controllino\\wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{C7B693AF-64F3-450A-9B01-4F87FA108A4C}|WpfApp1.csproj|c:\\users\\alessandro gerolami\\desktop\\benchmultisensorcontrollino\\wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{C7B693AF-64F3-450A-9B01-4F87FA108A4C}|WpfApp1.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C7B693AF-64F3-450A-9B01-4F87FA108A4C}|WpfApp1.csproj|Z:\\Attivit\u00E0\\Electrolux Porcia\\24073_Banco sensori pozzetto Iris\\Software Controllino\\WpfApp1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C7B693AF-64F3-450A-9B01-4F87FA108A4C}|WpfApp1.csproj|C:\\Users\\Alessandro Gerolami\\Desktop\\BenchMultiSensorControllino\\WpfApp1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C7B693AF-64F3-450A-9B01-4F87FA108A4C}|WpfApp1.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -28,9 +28,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "MainWindow.xaml",
-              "DocumentMoniker": "Z:\\Attivit\u00E0\\Electrolux Porcia\\24073_Banco sensori pozzetto Iris\\Software Controllino\\WpfApp1\\MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Alessandro Gerolami\\Desktop\\BenchMultiSensorControllino\\WpfApp1\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "Z:\\Attivit\u00E0\\Electrolux Porcia\\24073_Banco sensori pozzetto Iris\\Software Controllino\\WpfApp1\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\Alessandro Gerolami\\Desktop\\BenchMultiSensorControllino\\WpfApp1\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2024-11-27T13:14:40.62Z",
@@ -40,14 +40,13 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "Z:\\Attivit\u00E0\\Electrolux Porcia\\24073_Banco sensori pozzetto Iris\\Software Controllino\\WpfApp1\\MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Alessandro Gerolami\\Desktop\\BenchMultiSensorControllino\\WpfApp1\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "Z:\\Attivit\u00E0\\Electrolux Porcia\\24073_Banco sensori pozzetto Iris\\Software Controllino\\WpfApp1\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Alessandro Gerolami\\Desktop\\BenchMultiSensorControllino\\WpfApp1\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
               "ViewState": "AgIAACEAAAAAAAAAAAAowD0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-25T09:28:29.257Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-25T09:28:29.257Z"
             }
           ]
         },
