@@ -13,3 +13,19 @@ Z:\Attività\Electrolux Porcia\24073_Banco sensori pozzetto Iris\Software Contro
 Z:\Attività\Electrolux Porcia\24073_Banco sensori pozzetto Iris\Software Controllino\WpfApp1\obj\Debug\WpfApp1.csproj.CoreCompileInputs.cache
 Z:\Attività\Electrolux Porcia\24073_Banco sensori pozzetto Iris\Software Controllino\WpfApp1\obj\Debug\WpfApp1.exe
 Z:\Attività\Electrolux Porcia\24073_Banco sensori pozzetto Iris\Software Controllino\WpfApp1\obj\Debug\WpfApp1.pdb
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\bin\Debug\WpfApp1.exe.config
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\bin\Debug\WpfApp1.exe
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\bin\Debug\WpfApp1.pdb
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\WpfApp1.csproj.AssemblyReference.cache
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\WpfApp1.exe.config
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\MainWindow.g.cs
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\App.g.cs
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\WpfApp1_MarkupCompile.cache
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\WpfApp1_MarkupCompile.lref
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\MainWindow.baml
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\WpfApp1.g.resources
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\WpfApp1.Properties.Resources.resources
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\WpfApp1.csproj.GenerateResource.cache
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\WpfApp1.csproj.CoreCompileInputs.cache
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\WpfApp1.exe
+C:\Users\Alessandro Gerolami\Desktop\BenchMultiSensorControllino\WpfApp1\obj\Debug\WpfApp1.pdb

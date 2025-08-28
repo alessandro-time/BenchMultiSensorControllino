@@ -34,7 +34,8 @@ namespace WpfApp1 {
 
         private void Button_Click(object sender, RoutedEventArgs e) {
             
-            client.Connect("192.168.100.4", 80);
+            client = new TcpClient();
+            client.Connect("192.168.100.3", 80);
         }
 
 
