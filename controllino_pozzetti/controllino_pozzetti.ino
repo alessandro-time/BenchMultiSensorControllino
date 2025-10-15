@@ -106,7 +106,7 @@ void loop() {
 
 
   //DA SISTEMARE QUESTA PARTE NON SERVONO DUE IF DI CONTROLLO, POSSO FARE SOLO UN IF, CHE OGNI 500ms CONTROLLI LA TEMP POZZETTO/IN_LIVELLO/IN_EMERGENZA
-  if (currentMicros - previousMillisAnalogs >= 5000000) {  //5 SECONDI
+  if (currentMicros - previousMillisAnalogs >= 500000) {  //5000000 cosi sono 5 secondi perchè uso micros() mentre 500000 sono 0.5 secondi
     previousMillisAnalogs = currentMicros;
     // t_vasca = filterInput(t_vasca, analogRead(IN_TEMP_POZZETTO));
     //t_vasca = analogRead(IN_TEMP_POZZETTO);
@@ -181,7 +181,7 @@ void loop() {
   if (Serial.available() > 0) {
     int command2 = Serial.parseInt();
     switch (command2) {
-      case 1:
+      case 1: //avevo testato l'uscita analogica per capire se potevamo sostiuire l'alimentatore con il controllino, ma abbiamo notato che per cambiare da un valore di tensione ad un'altro ci mette circa 150ms
         {
           Serial.println("dentro");
           int Lev1 = (6.8 / 10.0) * 255;
